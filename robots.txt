@@ -1,8 +1,8 @@
 User-agent: *
-Disallow: /private/  # Prevent crawling of private content
-Disallow: /admin/   # Prevent crawling of admin section
-Disallow: /assets/private/  # Prevent crawling of private assets
+Disallow: /private/ 
+Disallow: /admin/   
+Disallow: /assets/private/  
 
-Allow: /            # Allow crawling of all other pages
+Allow: /           
 
-Sitemap: https://parthsojitra.github.io/sitemap.xml  # Specify the location of your sitemap
+Sitemap: https://parthsojitra.github.io/sitemap.xml 
