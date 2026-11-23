@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Parth Sojitra">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found — Parth Sojitra</title>
+    <meta name="description" content="Oops! The page you're looking for doesn't exist. Head back to Parth Sojitra's portfolio.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://parthsojitra.github.io/">
+    <link rel="icon" type="image/png" href="/images/parth_favicon.png">
+    <link rel="icon" type="image/svg+xml" href="/images/parth_favicon.svg">
+    <link rel="preload" href="/css/vendor.css" as="style">
+    <link rel="preload" href="/css/styles.css" as="style">
+    <link rel="stylesheet" href="/css/vendor.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .error-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .error-page__number {
+            font-size: clamp(6rem, 20vw, 14rem);
+            font-weight: 700;
+            line-height: 1;
+            color: var(--color-1, #c0392b);
+            margin-bottom: 1rem;
+        }
+        .error-page__title {
+            font-size: clamp(1.6rem, 4vw, 2.8rem);
+            margin-bottom: 1.5rem;
+        }
+        .error-page__text {
+            font-size: 1.1rem;
+            max-width: 36ch;
+            margin-bottom: 3rem;
+            opacity: 0.7;
+        }
+        .error-page__links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <main class="error-page" role="main">
+        <div class="error-page__number" aria-hidden="true">404</div>
+        <h1 class="error-page__title">Page Not Found</h1>
+        <p class="error-page__text">
+            Looks like this page wandered off — much like me on a trail with a camera.
+            Let's get you back on track.
+        </p>
+        <div class="error-page__links">
+            <a href="/" class="btn btn--primary">← Back to Home</a>
+            <a href="/work" class="btn btn--stroke">Work Experience</a>
+            <a href="/contact" class="btn btn--stroke">Contact</a>
+        </div>
+    </main>
+    <script src="/js/main.js"></script>
+</body>
+</html>
