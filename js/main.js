@@ -54,59 +54,30 @@ if (toggleButton.classList.contains('is-clicked')) toggleButton.classList.remove
 };
 
 const ssSwiper = function() {
-const homeSliderSwiper = new Swiper('.home-slider', {
+if (typeof Swiper === 'undefined') return;
+if (document.querySelector('.home-slider')) {
+new Swiper('.home-slider', {
 slidesPerView: 1,
-pagination: {
-el: '.swiper-pagination',
-clickable: true,
-},
+pagination: { el: '.swiper-pagination', clickable: true },
 breakpoints: {
-
-401: {
-slidesPerView: 1,
-spaceBetween: 20
-},
-
-801: {
-slidesPerView: 2,
-spaceBetween: 40
-},
-
-1331: {
-slidesPerView: 3,
-spaceBetween: 48
-},
-
-1774: {
-slidesPerView: 4,
-spaceBetween: 48
-}
+401: { slidesPerView: 1, spaceBetween: 20 },
+801: { slidesPerView: 2, spaceBetween: 40 },
+1331: { slidesPerView: 3, spaceBetween: 48 },
+1774: { slidesPerView: 4, spaceBetween: 48 }
 }
 });
-const pageSliderSwiper = new Swiper('.page-slider', {
-slidesPerView: 1,
-pagination: {
-el: '.swiper-pagination',
-clickable: true,
-},
-breakpoints: {
-
-401: {
-slidesPerView: 1,
-spaceBetween: 20
-},
-
-801: {
-slidesPerView: 2,
-spaceBetween: 40
-},
-
-1241: {
-slidesPerView: 3,
-spaceBetween: 48
 }
+if (document.querySelector('.page-slider')) {
+new Swiper('.page-slider', {
+slidesPerView: 1,
+pagination: { el: '.swiper-pagination', clickable: true },
+breakpoints: {
+401: { slidesPerView: 1, spaceBetween: 20 },
+801: { slidesPerView: 2, spaceBetween: 40 },
+1241: { slidesPerView: 3, spaceBetween: 48 }
 }
 });
+}
 };
 
 const ssMailChimpForm = function() {
@@ -234,38 +205,54 @@ goTopButton.classList.remove("link-is-visible")
 };
 
 const ssMoveTo = function() {
-const easeFunctions = {
-easeInQuad: function (t, b, c, d) {
-t /= d;
-return c * t * t + b;
-},
-easeOutQuad: function (t, b, c, d) {
-t /= d;
-return -c * t* (t - 2) + b;
-},
-easeInOutQuad: function (t, b, c, d) {
-t /= d/2;
-if (t < 1) return c/2*t*t + b;
-t--;
-return -c/2 * (t*(t-2) - 1) + b;
-},
-easeInOutCubic: function (t, b, c, d) {
-t /= d/2;
-if (t < 1) return c/2*t*t*t + b;
-t -= 2;
-return c/2*(t*t*t + 2) + b;
-}
-}
 const triggers = document.querySelectorAll('.smoothscroll');
 
-const moveTo = new MoveTo({
-tolerance: 0,
-duration: 1200,
-easing: 'easeInOutCubic',
-container: window
-}, easeFunctions);
+const easeInOutCubic = function(t) {
+return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+};
+
+const smoothScrollTo = function(targetY, duration) {
+duration = duration || 900;
+const startY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+const diff = targetY - startY;
+if (Math.abs(diff) < 2) return;
+const startTime = performance.now();
+
+function step(currentTime) {
+const elapsed = currentTime - startTime;
+const progress = Math.min(elapsed / duration, 1);
+const ease = easeInOutCubic(progress);
+window.scrollTo(0, startY + diff * ease);
+if (progress < 1) {
+window.requestAnimationFrame(step);
+}
+}
+window.requestAnimationFrame(step);
+};
+
 triggers.forEach(function(trigger) {
-moveTo.registerTrigger(trigger);
+trigger.addEventListener('click', function(e) {
+const targetId = this.getAttribute('href');
+if (!targetId || targetId === '#') return;
+
+e.preventDefault();
+
+if (targetId === '#top') {
+smoothScrollTo(0, 900);
+} else {
+const target = document.querySelector(targetId);
+if (target) {
+const topPos = target.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || document.documentElement.scrollTop);
+smoothScrollTo(topPos, 900);
+}
+}
+
+if (history.pushState) {
+history.pushState(null, null, targetId);
+} else {
+window.location.hash = targetId;
+}
+});
 });
 };
 
@@ -276,6 +263,7 @@ ssSwiper();
 ssMailChimpForm();
 ssAlertBoxes();
 ssMoveTo();
+ssBackToTop();
 })();
 })(document.documentElement);
 // Dynamic copyright year
