@@ -278,3 +278,5 @@ ssAlertBoxes();
 ssMoveTo();
 })();
 })(document.documentElement);
+// Dynamic copyright year
+(function(){var e=document.getElementById('yr');if(e)e.textContent=new Date().getFullYear();})();
